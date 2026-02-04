@@ -4,25 +4,38 @@ from db import get_db_connection
 
 app = Flask(__name__)
 
+def init_db():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS messages (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            content VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+# 🔥 CRITICAL
+init_db()
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # If form is submitted
     if request.method == "POST":
         message = request.form.get("message")
-
         if message:
             cursor.execute(
                 "INSERT INTO messages (content) VALUES (%s)",
                 (message,)
             )
             conn.commit()
-
         return redirect("/")
 
-    # Fetch messages
     cursor.execute("SELECT content, created_at FROM messages ORDER BY id DESC")
     messages = cursor.fetchall()
 
