@@ -15,7 +15,8 @@ A modern, containerized two-tier web application built with Flask and MySQL, fea
 - [CI/CD Pipeline](#cicd-pipeline)
 - [Environment Variables](#environment-variables)
 - [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#-contributing)
 
 ## 🔍 Overview
 
